@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>影片展示頁</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+            background: black;
+			color: white;
+			font-family: sans-serif;
+			overflow-x: hidden;
+		}
+        @keyframes glow {
+            0% {
+                box-shadow:
+                    0 0 20px 5px rgba(255, 60, 60, 0.8);
+            }
+            5% {
+                box-shadow:
+                    0 0 60px 10px rgba(255, 80, 80, 1);
+            }
+            10% {
+                box-shadow:
+                    0 0 30px 5px rgba(255, 40, 40, 0.6);
+            }
+            15% {
+                box-shadow:
+                    0 0 20px 5px rgba(255, 50, 50, 0.7);
+            }
+            20% {
+                box-shadow:
+                    0 0 80px 15px rgba(255, 100, 100, 1);
+            }
+            25% {
+                box-shadow:
+                    0 0 40px 8px rgba(255, 60, 60, 0.7);
+            }
+            100% {
+                box-shadow:
+                0 0 20px 5px rgba(255, 60, 60, 0.8);
+            }
+        }
+		.video-container {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) scale(1);
+			opacity: 1;
+			width: 960px;
+			height: 540px;
+			overflow: hidden;
+			z-index: 1;
+			transition: transform 0.2s, opacity 0.2s;
+            animation: glow 2s linear infinite;
+		}
+		video {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.text-container {
+			position: relative;
+            text-align: center;
+            margin-top: 1500px;
+            width: 960px;
+            margin: 1500px auto 0 auto;
+			font-size: 2em;
+            color: white;
+            z-index: 2;
+		}
+	</style>
+</head>
+<body>
+
+
+<div class="video-container" id="videoContainer">
+	<video src="video.mp4" loop preload="auto" id="video"></video>
+</div>
+
+<div class="text-container" id="textContainer">
+    <h1> YOASOBI </h1>
+    <h2> セブンティーン </h2>
+</div>
+
+<div class="text-container" id="textContainer">
+    <h1> YOASOBI </h1>
+    <p>YOASOBI 是 2019 年結成的日本雙人音樂組合，由使用 VOCALOID 作曲的作曲家 Ayase、及本業為創作歌手的 ikura 組成</p>
+    <p>其特色為將在日本索尼音樂娛樂所經營的小說及插畫網站「monogatary.com」中的原作「小說音樂化」</p>
+    <p>團名的原意為「在夜晚玩耍」（夜遊び），由於兩位團員本來都有各自的音樂工作，因此兩人把原本各自的工作定義為「早上的活動」，反之這個音樂組合則是「晚上的活動」，因此命名</p>
+    <p>其作品 アイドル 在發布一週後獲得了 2 千萬點閱，截至2024年8月28日共獲得了8億點閱</p>
+    <p>Cite From: <a href="https://zh.wikipedia.org/zh-tw/YOASOBI">wikipedia</a></p>
+</div>
+
+
+<div class="text-container" id="textContainer">索尼不要告我 :p</div>
+
+<script>
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    const video_start_width = 960;
+    const video_start_height = 540;
+    let max_scale = Math.min(width / video_start_width, height / video_start_height);
+    if (width < height) {
+        alert("推薦你使用螢幕 寬 > 高 (1920*1080) 的裝置瀏覽此網頁");
+    }
+    window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        max_scale = Math.min(width / video_start_width, height / video_start_height);
+    });
+	window.addEventListener('scroll', () => {
+		const scrollY = window.scrollY;
+		const videoContainer = document.getElementById('videoContainer');
+
+		const scale = Math.min(1 + scrollY / 500, max_scale);
+		const opacity = Math.max(1 - scrollY / 500, 0.5);
+
+		videoContainer.style.transform = `translate(-50%, -50%) scale(${scale})`;
+		videoContainer.style.opacity = opacity;
+	});
+
+    let video = document.getElementById('video');
+    video.oncanplaythrough = () => {
+        video.play();
+    };
+
+    video.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+        }
+    });
+</script>
+
+</body>
+</html>
